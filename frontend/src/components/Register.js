@@ -19,7 +19,7 @@ class Register extends React.Component {
     let BaseURL = 'http://172.20.10.2:5000/api/';
     async function makePostRequest() {
         let res = await axios.post(BaseURL+'register/',userData);
-        if(res.status==200){
+        if(res.status===200){
           alert("An email verification link has been sent to your email address, Kindly verify withn 24 hours.");
         }else{
           alert(res.data);
