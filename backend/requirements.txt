@@ -4,10 +4,12 @@ Click==7.0
 Flask==1.1.1
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.8
+Flask-HTTPAuth==3.3.0
 Flask-SQLAlchemy==2.4.0
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
+passlib==1.7.1
 pycparser==2.19
 PyJWT==1.7.1
 python-http-client==3.1.0
