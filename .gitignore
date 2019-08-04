@@ -24,5 +24,6 @@ yarn-error.log*
 ###############################################################################################
 
 /backend/myenv/
-/backend/*.sqlite
+/backend/*.db
 /backend/__pycache__/
+
