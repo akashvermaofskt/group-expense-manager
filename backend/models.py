@@ -98,6 +98,13 @@ class GroupMapping(Base):
         self.group_id = group_id
         self.spent = 0
         self.paid = 0
+    
+    def toJSON(self):
+        return { "Group Mapping Detail" : {
+                "Group" : self.group_id,
+                "User" : self.user_id
+            }
+        }
 
 # sqlite://<nohostname>/<path>
 # where <path> is relative:

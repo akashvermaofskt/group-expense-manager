@@ -73,6 +73,23 @@ def create_group():
     except:
         return { "Error" : "Internal Server Error" }, 500
 
+@app.route("/api/add_user_to_group/", methods=["POST"])
+@auth.login_required
+def add_user_to_group():
+    data = request.json["Group"]
+    name = data["Name"]
+    email = data["Email"]
+    try:
+        user = session.query(UserInfo).filter_by(email = email).first()
+        user_id = user.id
+        group = session.query(GroupInfo).filter_by(name = name).first()
+        group_id = group.id
+        new_mapping = GroupMapping(user_id, group_id)
+        session.add(new_mapping)
+        session.commit()
+        return jsonify(new_group.toJSON()), 201
+    except:
+        return { "Error" : "Internal Server Error" }, 500
 
 if __name__ == '__main__':
     app.debug = True
