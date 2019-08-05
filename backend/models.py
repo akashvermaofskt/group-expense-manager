@@ -28,7 +28,7 @@ class UserInfo(Base):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
-    def generate_auth_token(self, expiration=60):
+    def generate_auth_token(self, expiration=6000):
     	s = Serializer(secret_key, expires_in = expiration)
     	return s.dumps({'email': self.email }) 
 
@@ -52,15 +52,55 @@ class UserInfo(Base):
         self.status = "Not Verified"
 
     def toJSON(self):
-        return { "login_detail" : {
+        return { "login_details" : {
                 "email" : self.email,
                 "name" : self.name,
                 "status" : self.status
             }
         }
 
+class GroupInfo(Base):
+    __tablename__ = "GroupData"
+    #attributes for userdata table
+    id = Column(Integer, primary_key = True )
+    name = Column( String(100), nullable = False, unique = True )
+    owner = Column( String(120), nullable = False )
+    status = Column( String(10), nullable = False ) #active or not
+    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+
+    def __init__(self, name, owner):
+        self.name = name
+        self.owner = owner
+        self.status = "Active"
+
+    def toJSON(self):
+        return { "group_details" : {
+                "owner" : self.owner,
+                "name" : self.name,
+                "status" : self.status
+            }
+        }
+
+class GroupMapping(Base):
+    __tablename__ = "GroupMapping"
+    #attributes for userdata table
+    id = Column(Integer, primary_key = True )
+    user_id = Column( String(100), nullable = False)
+    group_id = Column( String(120), nullable = False )
+    spent = Column( Integer, nullable = False )
+    paid = Column( Integer, nullable = False )
+    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+
+    def __init__(self, user_id, group_id):
+        self.user_id = user_id
+        self.group_id = group_id
+        self.spent = 0
+        self.paid = 0
+
 # sqlite://<nohostname>/<path>
 # where <path> is relative:
-engine = create_engine('sqlite:///foo.db')
+engine = create_engine('sqlite:///version1.db')
 
 Base.metadata.create_all(engine)
