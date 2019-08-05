@@ -3,7 +3,8 @@ import {BrowserRouter as Router,Route,Link} from "react-router-dom";
 import './Home.css';
 import Login from './components/Login'
 import Register from './components/Register';
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Dashboard';
+
 class Home extends React.Component{
   constructor(props){
     super(props);
@@ -28,6 +29,7 @@ class Home extends React.Component{
 
   render(){
 
+
     if(this.state.isLoggedIn===true){
       return (
         <Dashboard logoutUser={this.logoutUser}/>
@@ -50,7 +52,7 @@ class Home extends React.Component{
                   <h1 className="font-weight-bold">Welcome people!</h1>
                 </div>
                 <div className="mt-5 md-5 " >
-                  <Route
+                  <Route exact
                     path='/'
                     render={(props) => <Login {...props} loginUser={this.loginUser} />}
                   />
