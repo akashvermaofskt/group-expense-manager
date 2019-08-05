@@ -1,4 +1,4 @@
-from models import Base, UserInfo
+from models import Base, UserInfo, GroupInfo, GroupMapping
 from flask import Flask, jsonify, request, abort, g
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy.ext.declarative import declarative_base
@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 auth = HTTPBasicAuth()
 
-engine = create_engine('sqlite:///foo.db')
+engine = create_engine('sqlite:///version1.db')
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -30,7 +30,7 @@ def verify_password(email_or_token, password):
     g.user = user
     return True
 
-@app.route('/api/login/', methods=["GET"])
+@app.route('/api/login/', methods=["GET", "POST"])
 @auth.login_required
 def get_auth_token():
     token = g.user.generate_auth_token()
@@ -52,10 +52,27 @@ def create_user():
     except:
         return { "Error" : "Internal Server Error" }, 500
     
-@app.route("/api/resource/", methods=["GET"])
+@app.route("/api/create_group/", methods=["POST"])
 @auth.login_required
-def get_resource():
-    return jsonify({ 'data': 'Hello, %s!' % g.user.name })
+def create_group():
+    data = request.json["Group"]
+    name = data["Name"]
+    owner = g.user.email
+    new_group = GroupInfo(name, owner)
+    try:
+        session.add(new_group)
+        session.commit()
+        user = session.query(UserInfo).filter_by(email = owner).first()
+        user_id = user.id
+        group = session.query(GroupInfo).filter_by(name = name).first()
+        group_id = group.id
+        new_mapping = GroupMapping(user_id, group_id)
+        session.add(new_mapping)
+        session.commit()
+        return jsonify(new_group.toJSON()), 201
+    except:
+        return { "Error" : "Internal Server Error" }, 500
+
 
 if __name__ == '__main__':
     app.debug = True
