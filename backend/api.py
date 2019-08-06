@@ -1,4 +1,4 @@
-from models import Base, UserInfo, GroupInfo, GroupMapping
+from models import Base, UserInfo, GroupInfo, GroupMapping, FriendMapping
 from flask import Flask, jsonify, request, abort, g
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,6 +17,7 @@ session = DBSession()
 app = Flask(__name__) # Flask object created
 CORS(app) # CORS (Cross-Origin Resource Sharing) is a standard for accessing web resources on different domains.
 
+#to give access to authorized users
 @auth.verify_password
 def verify_password(email_or_token, password):
     #Try to see if it's a token first
@@ -27,15 +28,17 @@ def verify_password(email_or_token, password):
         user = session.query(UserInfo).filter_by(email = email_or_token).first()
         if not user or not user.verify_password(password):
             return False
-    g.user = user
+    g.user = user 
     return True
 
-@app.route('/api/login/', methods=["GET", "POST"])
+# Api for login that give the token
+@app.route('/api/login/', methods=["GET"])
 @auth.login_required
 def get_auth_token():
     token = g.user.generate_auth_token()
     return jsonify({'token': token.decode('ascii')})
 
+# Api for signup
 @app.route("/api/signup/", methods=["POST"])
 def create_user():
     data = request.json["User"]
@@ -52,6 +55,7 @@ def create_user():
     except:
         return { "Error" : "Internal Server Error" }, 500
     
+# Api to create group by only authorized users
 @app.route("/api/create_group/", methods=["POST"])
 @auth.login_required
 def create_group():
@@ -66,6 +70,7 @@ def create_group():
         user_id = user.id
         group = session.query(GroupInfo).filter_by(name = name).first()
         group_id = group.id
+        # add mapping of user with its group
         new_mapping = GroupMapping(user_id, group_id)
         session.add(new_mapping)
         session.commit()
@@ -73,6 +78,47 @@ def create_group():
     except:
         return { "Error" : "Internal Server Error" }, 500
 
+# Api to add user in existing group
+@app.route("/api/add_user_to_group/", methods=["POST"])
+@auth.login_required
+def add_user_to_group():
+    data = request.json["Group"]
+    name = data["Group_Name"]
+    email = data["New_Person_Email"]
+    try:
+        # retrive user_id
+        user = session.query(UserInfo).filter_by(email = email).first()
+        user_id = user.id
+        # retrive group_id
+        group = session.query(GroupInfo).filter_by(name = name).first()
+        group_id = group.id
+        new_mapping = GroupMapping(user_id, group_id)
+        session.add(new_mapping)
+        session.commit()
+        return jsonify(new_mapping.toJSON()), 201
+    except:
+        return { "Error" : "Internal Server Error" }, 500
+
+# Api to add friend in existing user
+@app.route("/api/add_friend/", methods=["POST"])
+@auth.login_required
+def add_friend():
+    data = request.json["Friend_Details"]
+    email = data["Friend_Email"]
+    owner = g.user.email
+    try:
+        # retrive user_id
+        user = session.query(UserInfo).filter_by(email = email).first()
+        friend_id = user.id
+        # retrive group_id
+        user = session.query(UserInfo).filter_by(email = owner).first()
+        user_id = user.id
+        new_friend = FriendMapping(user_id, friend_id)
+        session.add(new_friend)
+        session.commit()
+        return jsonify(new_friend.toJSON()), 201
+    except:
+        return { "Error" : "Internal Server Error" }, 500
 
 if __name__ == '__main__':
     app.debug = True
