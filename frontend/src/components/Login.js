@@ -4,7 +4,7 @@ class Login extends React.Component {
 
     constructor(props) {
       super(props);
-      this.state = { email: "", password: "",toDashboard:false}; 
+      this.state = { email: "", password: ""}; 
       this.onSubmit=this.onSubmit.bind(this);
       this.handleEmailChange=this.handleEmailChange.bind(this);
       this.handlePasswordChange=this.handlePasswordChange.bind(this);
@@ -14,9 +14,7 @@ class Login extends React.Component {
       e.preventDefault();
       console.log(this.state);
       //POST REQUEST
-      this.setState({
-        toDashboard:true
-      });
+      this.props.loginUser();
     }
 
     handleEmailChange(e){
@@ -27,10 +25,6 @@ class Login extends React.Component {
     }
   
     render() {
-      if(this.state.toDashboard===true){
-        return <Redirect to="/dashboard"/>
-      }
-
       return (
         <div className="shadow-lg p-3 mb-5 bg-white rounded border border-dark">
           <h3>Login</h3>

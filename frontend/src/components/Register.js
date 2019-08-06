@@ -16,20 +16,13 @@ class Register extends React.Component {
 
   register(userData){
     console.log(userData);
-    let BaseURL = 'http://172.20.10.2:5000/api/';
+    let BaseURL = 'http://192.168.43.176:5000/api/';
     async function makePostRequest() {
-        let res = await axios.post(BaseURL+'register/',userData);
-        if(res.status==200){
-          alert("An email verification link has been sent to your email address, Kindly verify withn 24 hours.");
-        }else{
-          alert(res.data);
-        }
+        let res = await axios.post(BaseURL+'signup/',userData);
+        console.log(res);
     }
-    //makePostRequest();
-    alert("User registered successfully! Please log in!");
-    this.setState({
-      toLogin:true
-    });
+    makePostRequest();
+    this.props.history.push("/");
   }
 
   onSubmit(e){
