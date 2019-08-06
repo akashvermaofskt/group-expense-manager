@@ -28,7 +28,7 @@ class UserInfo(Base):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
-    def generate_auth_token(self, expiration=6000):
+    def generate_auth_token(self, expiration=600000):
     	s = Serializer(secret_key, expires_in = expiration)
     	return s.dumps({'email': self.email }) 
 
@@ -75,7 +75,7 @@ class GroupInfo(Base):
         self.status = "Active"
 
     def toJSON(self):
-        return { "group_details" : {
+        return { "Group Details" : {
                 "owner" : self.owner,
                 "name" : self.name,
                 "status" : self.status
@@ -86,8 +86,8 @@ class GroupMapping(Base):
     __tablename__ = "GroupMapping"
     #attributes for userdata table
     id = Column(Integer, primary_key = True )
-    user_id = Column( String(100), nullable = False)
-    group_id = Column( String(120), nullable = False )
+    user_id = Column( Integer, nullable = False)
+    group_id = Column( Integer, nullable = False )
     spent = Column( Integer, nullable = False )
     paid = Column( Integer, nullable = False )
     # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
@@ -100,9 +100,29 @@ class GroupMapping(Base):
         self.paid = 0
     
     def toJSON(self):
-        return { "Group Mapping Detail" : {
+        return { "Group Mapping Details" : {
                 "Group" : self.group_id,
                 "User" : self.user_id
+            }
+        }
+
+class FriendMapping(Base):
+    __tablename__ = "Friends"
+    #attributes for userdata table
+    id = Column(Integer, primary_key = True )
+    user_id = Column( Integer, nullable = False)
+    friend_id = Column( Integer, nullable = False )
+    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+
+    def __init__(self, user_id, friend_id):
+        self.user_id = user_id
+        self.friend_id = friend_id
+    
+    def toJSON(self):
+        return { "Friend Mapping Details" : {
+                "User_id" : self.user_id,
+                "Friend_id" : self.friend_id
             }
         }
 
