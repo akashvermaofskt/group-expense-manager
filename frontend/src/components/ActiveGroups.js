@@ -14,7 +14,7 @@ class ActiveGroups extends React.Component{
         <Router>
             <div className="container border">
                 <div>
-                    <h1 className="text-center ">List of ActiveGroups</h1>
+                    <h1 className="text-center  ">List of ActiveGroups</h1>
                 </div>
                 <div id="main" className="container-fluid mt-2" style={{background:"white",color:"black"}}>
                     <div className="d-flex flex-row align-items-center justify-content-start ">

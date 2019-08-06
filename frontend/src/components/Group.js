@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router,Route,Link} from "react-router-dom";
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
-class CreateGroup extends React.Component{
+class Group extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -46,4 +46,4 @@ class CreateGroup extends React.Component{
     }
 }
 
-export default CreateGroup;
+export default Group;
