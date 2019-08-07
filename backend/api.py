@@ -120,6 +120,26 @@ def add_friend():
     except:
         return { "Error" : "Internal Server Error" }, 500
 
+#Api for current user detail
+@app.route("/api/details/", methods=["GET"])
+@auth.login_required
+def user_detail():
+    user_email = g.user.email
+    try:
+        user = session.query(UserInfo).filter_by(email = user_email).first()
+        email = user.email
+        name = user.name
+        status = user.status
+        return { "User Details" : {
+                "Email" : email,
+                "Name" : name,
+                "Stauts" : status
+            }
+        }, 200
+    except:
+        return { "Error" : "Internal Server Error" }, 500
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0')
