@@ -122,3 +122,110 @@ This repo contains all APIs used in this project.
     }
 }
 ```
+
+#### To get the details of an existing user i.e `GET`
+
+* Hit following API http://0.0.0.0:5000/api/details/ in postman with the token in the authentication.
+
+
+* This will return a JSON file of friend mapping details in this format.
+
+```
+{ 
+	"User Details" : {
+        "Email" : "ceantion092@gmail.com",
+        "Name" : "Mohit Rai",
+        "Stauts" : "Active"
+    }
+        
+}
+```
+
+#### To retrive all friends of an existing user i.e `GET`
+
+* Hit following API http://0.0.0.0:5000/api/all_friends/ in postman with the token in the authentication.
+
+
+* This will return a JSON file of friend mapping details in this format.
+
+```
+{
+  	"All_Friend_Name": [
+    	"Akash Verma",
+    	"Friend2",
+    	"Friend3"
+  	]
+}
+```
+
+#### To retrive all active groups of an existing user i.e `GET`
+
+* Hit following API http://0.0.0.0:5000/api/active_group/ in postman with the token in the authentication.
+
+
+* This will return a JSON file of friend mapping details in this format.
+
+```
+{
+  "Active Groups": {
+    	"Group Ids": [
+      		1,
+      		2
+    	],
+    	"Group Names": [
+      		"Project 1",
+      		"Project 2"
+    	]
+  	}
+}
+```
+
+#### To retrive all active groups of an existing user i.e `GET`
+
+* Hit following API http://0.0.0.0:5000/api/deactive_group/ in postman with the token in the authentication.
+
+
+* This will return a JSON file of friend mapping details in this format.
+
+```
+{
+  "Deactive Groups": {
+    	"Group Ids": [
+      		1,
+      		2
+    	],
+    	"Group Names": [
+      		"Project 1",
+      		"Project 2"
+    	]
+  	}
+}
+```
+
+#### To retrive group details i.e `GET`
+
+* Hit following API http://0.0.0.0:5000/api/group_details/ in postman then write in this format in the body. 
+```
+{
+    "Group": {
+        "Id": 1
+    }
+}
+```
+
+* This will return a JSON file of friend mapping details in this format.
+
+```
+{
+  	"Group Details": {
+    	"Created By": "Mohit Rai",
+    	"Created On": "Wed, 07 Aug 2019 22:46:11 GMT",
+    	"Members Name": [
+      		"Mohit Rai",
+      		"Akash Verma"
+    	],
+    	"Name": "Pta Ni",
+    	"Status": "Active"
+  	}
+}
+```

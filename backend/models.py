@@ -1,11 +1,12 @@
-from sqlalchemy import Column,Integer,String
+from sqlalchemy import Column,Integer,String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy import PrimaryKeyConstraint
 from passlib.apps import custom_app_context as pwd_context
 import random, string
 from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
-import datetime 
+import datetime
 
 Base = declarative_base()
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
@@ -19,8 +20,8 @@ class UserInfo(Base):
     password_hash = Column( String(100), nullable = False )
     status = Column( String(10), nullable = False ) #for verify email
     phone_number = Column(Integer,nullable = True)
-    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
-    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+    created_date = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
@@ -63,11 +64,11 @@ class GroupInfo(Base):
     __tablename__ = "GroupData"
     #attributes for userdata table
     id = Column(Integer, primary_key = True )
-    name = Column( String(100), nullable = False, unique = True )
-    owner = Column( String(120), nullable = False )
+    name = Column( String(100), nullable = False, primary_key = True )
+    owner = Column( String(120), nullable = False, primary_key = True )
     status = Column( String(10), nullable = False ) #active or not
-    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
-    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+    created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
 
     def __init__(self, name, owner):
         self.name = name
@@ -90,8 +91,8 @@ class GroupMapping(Base):
     group_id = Column( Integer, nullable = False )
     spent = Column( Integer, nullable = False )
     paid = Column( Integer, nullable = False )
-    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
-    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+    created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
 
     def __init__(self, user_id, group_id):
         self.user_id = user_id
@@ -109,11 +110,10 @@ class GroupMapping(Base):
 class FriendMapping(Base):
     __tablename__ = "Friends"
     #attributes for userdata table
-    id = Column(Integer, primary_key = True )
-    user_id = Column( Integer, nullable = False)
-    friend_id = Column( Integer, nullable = False )
-    # created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
-    # updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+    user_id = Column( Integer, nullable = False, primary_key = True)
+    friend_id = Column( Integer, nullable = False, primary_key = True)
+    created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
 
     def __init__(self, user_id, friend_id):
         self.user_id = user_id

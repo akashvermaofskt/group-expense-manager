@@ -53,6 +53,7 @@ def create_user():
         session.commit()
         return jsonify(new_user.toJSON()), 201
     except:
+        session.rollback()
         return { "Error" : "Internal Server Error" }, 500
     
 # Api to create group by only authorized users
@@ -76,6 +77,7 @@ def create_group():
         session.commit()
         return jsonify(new_group.toJSON()), 201
     except:
+        session.rollback()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to add user in existing group
@@ -97,6 +99,7 @@ def add_user_to_group():
         session.commit()
         return jsonify(new_mapping.toJSON()), 201
     except:
+        session.rollback()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to add friend in existing user
@@ -113,11 +116,18 @@ def add_friend():
         # retrive group_id
         user = session.query(UserInfo).filter_by(email = owner).first()
         user_id = user.id
+        # one side mapping
+        new_friend = FriendMapping(user_id, friend_id)
+        session.add(new_friend)
+        session.commit()
+        #other side mapping
+        user_id, friend_id = friend_id, user_id
         new_friend = FriendMapping(user_id, friend_id)
         session.add(new_friend)
         session.commit()
         return jsonify(new_friend.toJSON()), 201
     except:
+        session.rollback()
         return { "Error" : "Internal Server Error" }, 500
 
 #Api for current user detail
@@ -137,8 +147,130 @@ def user_detail():
             }
         }, 200
     except:
+        session.rollback()
         return { "Error" : "Internal Server Error" }, 500
 
+# Api to retrive all friends of current user
+@app.route("/api/all_friends/", methods=["GET"])
+@auth.login_required
+def retrive_friends():
+    user_email = g.user.email
+    try:
+        user_detail = session.query(UserInfo).filter_by(email = user_email).first()
+        user_id = user_detail.id
+        all_friends = session.query(FriendMapping).filter_by(user_id = user_id).all()
+        friends_ids = []
+        for i in all_friends:
+            friend_id = i.friend_id
+            print(friend_id)
+            friends_ids.append(friend_id)
+        friend_name = []
+        for i in friends_ids:
+            cur_friend_name = session.query(UserInfo).filter_by(id = i).first().name
+            friend_name.append(cur_friend_name)
+        return {"All_Friend_Name" : friend_name }, 200
+    except:
+        session.rollback()
+        return { "Error" : "Internal Server Error" }, 500
+
+# Api to retrive all active groups of current user
+@app.route("/api/active_group/", methods=["GET"])
+@auth.login_required
+def retrive_active_groups():
+    user_email = g.user.email
+    try:
+        user_detail = session.query(UserInfo).filter_by(email = user_email).first()
+        user_id = user_detail.id
+        all_groups = session.query(GroupMapping).filter_by(user_id = user_id).all()
+        group_ids = []
+        for i in all_groups:
+            group_id = i.group_id
+            group_ids.append(group_id)
+        group_name = []
+        active_id = []
+        for i in group_ids:
+            cur_group = session.query(GroupInfo).filter_by(id = i, status = "Active").first()
+            name = cur_group.name
+            id = cur_group.id
+            group_name.append(name)
+            active_id.append(id)
+        return {
+                "Active Groups" : 
+                    { 
+                        "Group Names" : group_name, 
+                        "Group Ids" : active_id    
+                    }
+                }, 200   
+    except:
+        session.rollback()
+        return { "Error" : "Internal Server Error" }, 500
+
+# Api to retrive all deactive groups of current user
+@app.route("/api/deactive_group/", methods=["GET"])
+@auth.login_required
+def retrive_deactive_groups():
+    user_email = g.user.email
+    try:
+        user_detail = session.query(UserInfo).filter_by(email = user_email).first()
+        user_id = user_detail.id
+        all_groups = session.query(GroupMapping).filter_by(user_id = user_id).all()
+        group_ids = []
+        for i in all_groups:
+            group_id = i.group_id
+            group_ids.append(group_id)
+        deactive_id = []
+        group_name = []
+        for i in group_ids:
+            cur_group = session.query(GroupInfo).filter_by(id = i, status = "Deactive").first()
+            name = cur_group.name
+            id = cur_group.id
+            group_name.append(name)
+            deactive_id.append(id)
+        return {
+                "Deactive Groups" : 
+                    { 
+                        "Group Names" : group_name, 
+                        "Group Ids" : deactive_id    
+                    }
+                }, 200  
+    except:
+        session.rollback()
+        return { "Error" : "Internal Server Error" }, 500
+
+# Api to retrive details of a group
+@app.route("/api/group_details/", methods=["GET"])
+@auth.login_required
+def retrive_group_details():
+    data = request.json["Group"]
+    id = data["Id"]
+    try:
+        Group = session.query(GroupInfo).filter_by(id = id).first()
+        group_name = Group.name
+        owner = Group.owner
+        status = Group.status
+        created_on = Group.created_on
+        created_by = session.query(UserInfo).filter_by(email=owner).first().name
+        members = session.query(GroupMapping).filter_by(group_id=id).all()
+        member_ids = []
+        for i in members:
+            member_ids.append(i.user_id)
+        member_names = []
+        for i in member_ids:
+            name = session.query(UserInfo).filter_by(id = i).first().name
+            member_names.append(name)
+        return {
+                "Group Details" : 
+                    {
+                        "Status" : status,
+                        "Name" : group_name,
+                        "Created By" : created_by,
+                        "Created On" : created_on,
+                        "Members Name" : member_names
+                    }
+                }, 200
+    except:
+        session.rollback()
+        return { "Error" : "Internal Server Error" }, 500
 
 if __name__ == '__main__':
     app.debug = True
