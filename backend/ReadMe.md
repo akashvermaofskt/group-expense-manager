@@ -150,11 +150,7 @@ This repo contains all APIs used in this project.
 
 ```
 {
-  	"All_Friend_Name": [
-    	"Akash Verma",
-    	"Friend2",
-    	"Friend3"
-  	]
+  	"All_Friend_Name": [ "Akash Verma", "Friend2", "Friend3" ]
 }
 ```
 
@@ -167,15 +163,9 @@ This repo contains all APIs used in this project.
 
 ```
 {
-  "Active Groups": {
-    	"Group Ids": [
-      		1,
-      		2
-    	],
-    	"Group Names": [
-      		"Project 1",
-      		"Project 2"
-    	]
+  	"Active Groups": {
+    	"Group Ids": [ 1, 2 ],
+    	"Group Names": [ "Project 1", "Project 2" ]
   	}
 }
 ```
@@ -189,15 +179,9 @@ This repo contains all APIs used in this project.
 
 ```
 {
-  "Deactive Groups": {
-    	"Group Ids": [
-      		1,
-      		2
-    	],
-    	"Group Names": [
-      		"Project 1",
-      		"Project 2"
-    	]
+  	"Deactive Groups": {
+    	"Group Ids": [ 1, 2 ],
+    	"Group Names": [ "Project 1", "Project 2" ]
   	}
 }
 ```
@@ -217,13 +201,10 @@ This repo contains all APIs used in this project.
 
 ```
 {
-  	"Group Details": {
+ 	"Group Details": {
     	"Created By": "Mohit Rai",
     	"Created On": "Wed, 07 Aug 2019 22:46:11 GMT",
-    	"Members Name": [
-      		"Mohit Rai",
-      		"Akash Verma"
-    	],
+    	"Members Name": [ "Mohit Rai", "Akash Verma" ],
     	"Name": "Pta Ni",
     	"Status": "Active"
   	}
