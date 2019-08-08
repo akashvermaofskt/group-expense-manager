@@ -180,7 +180,7 @@ This repo contains all APIs used in this project.
 }
 ```
 
-#### To retrive all active groups of an existing user i.e `GET`
+#### To retrive all deactive groups of an existing user i.e `GET`
 
 * Hit following API http://0.0.0.0:5000/api/deactive_group/ in postman with the token in the authentication.
 

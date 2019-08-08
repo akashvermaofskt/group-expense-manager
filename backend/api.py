@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 auth = HTTPBasicAuth()
 
-engine = create_engine('sqlite:///version1.db')
+engine = create_engine('sqlite:///version1.db',connect_args={'check_same_thread': False})
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -28,6 +28,7 @@ def verify_password(email_or_token, password):
         user = session.query(UserInfo).filter_by(email = email_or_token).first()
         if not user or not user.verify_password(password):
             return False
+    session.close()
     g.user = user 
     return True
 
@@ -51,9 +52,11 @@ def create_user():
     try:
         session.add(new_user)
         session.commit()
+        session.close()
         return jsonify(new_user.toJSON()), 201
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
     
 # Api to create group by only authorized users
@@ -79,9 +82,11 @@ def create_group():
         new_mapping = GroupMapping(user_id, group_id)
         session.add(new_mapping)
         session.commit()
+        session.close()
         return jsonify(new_group.toJSON()), 201
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to add user in existing group
@@ -101,9 +106,11 @@ def add_user_to_group():
         new_mapping = GroupMapping(user_id, group_id)
         session.add(new_mapping)
         session.commit()
+        session.close()
         return jsonify(new_mapping.toJSON()), 201
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to add friend in existing user
@@ -129,9 +136,11 @@ def add_friend():
         new_friend = FriendMapping(user_id, friend_id)
         session.add(new_friend)
         session.commit()
+        session.close()
         return jsonify(new_friend.toJSON()), 201
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 #Api for current user detail
@@ -145,6 +154,7 @@ def user_detail():
         name = user.name
         status = user.status
         member_since = user.created_on
+        session.close()
         return { "User Details" : {
                 "Email" : email,
                 "Name" : name,
@@ -154,6 +164,7 @@ def user_detail():
         }, 200
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to retrive all friends of current user
@@ -174,9 +185,11 @@ def retrive_friends():
         for i in friends_ids:
             cur_friend_name = session.query(UserInfo).filter_by(id = i).first().name
             friend_name.append(cur_friend_name)
+        session.close()
         return {"All_Friend_Name" : friend_name }, 200
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to retrive all active groups of current user
@@ -203,9 +216,11 @@ def retrive_active_groups():
             cur_group_info["Id"] = id
             info.append(cur_group_info)
             cnt += 1
+        session.close()
         return {"Active Groups" : info }, 200   
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to retrive all deactive groups of current user
@@ -232,10 +247,12 @@ def retrive_deactive_groups():
             cur_group_info["Id"] = id
             info.append(cur_group_info)
             cnt += 1
+        session.close()
         return {
                 "Deactive Groups" : info}, 200  
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 # Api to retrive details of a group
@@ -259,6 +276,7 @@ def retrive_group_details():
         for i in member_ids:
             name = session.query(UserInfo).filter_by(id = i).first().name
             member_names.append(name)
+        session.close()
         return {
                 "Group Details" : 
                     {
@@ -271,6 +289,7 @@ def retrive_group_details():
                 }, 200
     except:
         session.rollback()
+        session.close()
         return { "Error" : "Internal Server Error" }, 500
 
 if __name__ == '__main__':
