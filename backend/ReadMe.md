@@ -131,13 +131,13 @@ This repo contains all APIs used in this project.
 * This will return a JSON file of friend mapping details in this format.
 
 ```
-{ 
-	"User Details" : {
-        "Email" : "ceantion092@gmail.com",
-        "Name" : "Mohit Rai",
-        "Stauts" : "Active"
-    }
-        
+{
+  	"User Details": {
+    	"Email": "cenation092@gmail.com",
+    	"Member Since": "Thu, 08 Aug 2019 00:07:17 GMT",
+    	"Name": "Mohit Rai",
+    	"Stauts": "Not Verified"
+  	}
 }
 ```
 

@@ -140,9 +140,11 @@ def user_detail():
         email = user.email
         name = user.name
         status = user.status
+        member_since = user.created_on
         return { "User Details" : {
                 "Email" : email,
                 "Name" : name,
+                "Member Since" : member_since,
                 "Stauts" : status
             }
         }, 200

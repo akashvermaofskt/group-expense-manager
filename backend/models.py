@@ -2,7 +2,6 @@ from sqlalchemy import Column,Integer,String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
-from sqlalchemy import PrimaryKeyConstraint
 from passlib.apps import custom_app_context as pwd_context
 import random, string
 from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
@@ -20,7 +19,7 @@ class UserInfo(Base):
     password_hash = Column( String(100), nullable = False )
     status = Column( String(10), nullable = False ) #for verify email
     phone_number = Column(Integer,nullable = True)
-    created_date = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    created_on = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
 
     def hash_password(self, password):
