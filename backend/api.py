@@ -69,8 +69,12 @@ def create_group():
         session.commit()
         user = session.query(UserInfo).filter_by(email = owner).first()
         user_id = user.id
-        group = session.query(GroupInfo).filter_by(name = name).first()
-        group_id = group.id
+        group = session.query(GroupInfo).all()
+        if group == None:
+            group_id = 1
+        else:
+            group.reverse()
+            group_id = group[0].id
         # add mapping of user with its group
         new_mapping = GroupMapping(user_id, group_id)
         session.add(new_mapping)
@@ -188,21 +192,18 @@ def retrive_active_groups():
         for i in all_groups:
             group_id = i.group_id
             group_ids.append(group_id)
-        group_name = []
-        active_id = []
+        info = []
+        cnt = 1
         for i in group_ids:
             cur_group = session.query(GroupInfo).filter_by(id = i, status = "Active").first()
+            cur_group_info = {}
             name = cur_group.name
             id = cur_group.id
-            group_name.append(name)
-            active_id.append(id)
-        return {
-                "Active Groups" : 
-                    { 
-                        "Group Names" : group_name, 
-                        "Group Ids" : active_id    
-                    }
-                }, 200   
+            cur_group_info["Name"] = name
+            cur_group_info["Id"] = id
+            info.append(cur_group_info)
+            cnt += 1
+        return {"Active Groups" : info }, 200   
     except:
         session.rollback()
         return { "Error" : "Internal Server Error" }, 500
@@ -220,21 +221,19 @@ def retrive_deactive_groups():
         for i in all_groups:
             group_id = i.group_id
             group_ids.append(group_id)
-        deactive_id = []
-        group_name = []
+        info = []
+        cnt = 1
         for i in group_ids:
             cur_group = session.query(GroupInfo).filter_by(id = i, status = "Deactive").first()
+            cur_group_info = {}
             name = cur_group.name
             id = cur_group.id
-            group_name.append(name)
-            deactive_id.append(id)
+            cur_group_info["Name"] = name
+            cur_group_info["Id"] = id
+            info.append(cur_group_info)
+            cnt += 1
         return {
-                "Deactive Groups" : 
-                    { 
-                        "Group Names" : group_name, 
-                        "Group Ids" : deactive_id    
-                    }
-                }, 200  
+                "Deactive Groups" : info}, 200  
     except:
         session.rollback()
         return { "Error" : "Internal Server Error" }, 500
