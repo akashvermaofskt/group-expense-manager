@@ -163,10 +163,20 @@ This repo contains all APIs used in this project.
 
 ```
 {
-  	"Active Groups": {
-    	"Group Ids": [ 1, 2 ],
-    	"Group Names": [ "Project 1", "Project 2" ]
-  	}
+    "Active Groups": [
+        {
+            "Id": 3,
+            "Name": "Test Group"
+        },
+        {
+            "Id": 4,
+            "Name": "Test Group"
+        },
+        {
+            "Id": 5,
+            "Name": "Test Group 2"
+        }
+    ]
 }
 ```
 
@@ -179,10 +189,16 @@ This repo contains all APIs used in this project.
 
 ```
 {
-  	"Deactive Groups": {
-    	"Group Ids": [ 1, 2 ],
-    	"Group Names": [ "Project 1", "Project 2" ]
-  	}
+    "Deactive Groups": [
+        {
+            "Id": 3,
+            "Name": "Test Group"
+        },
+        {
+            "Id": 4,
+            "Name": "Test Group"
+        }
+    ]
 }
 ```
 

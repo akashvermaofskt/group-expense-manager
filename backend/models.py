@@ -63,8 +63,8 @@ class GroupInfo(Base):
     __tablename__ = "GroupData"
     #attributes for userdata table
     id = Column(Integer, primary_key = True )
-    name = Column( String(100), nullable = False, primary_key = True )
-    owner = Column( String(120), nullable = False, primary_key = True )
+    name = Column( String(100), nullable = False)
+    owner = Column( String(120), nullable = False)
     status = Column( String(10), nullable = False ) #active or not
     created_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
     updated_on = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
