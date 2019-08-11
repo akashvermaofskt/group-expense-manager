@@ -3,7 +3,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 if __name__ == "__main__":
-    print("bakchodi") 
+    print(":)") 
     message = Mail(
         from_email='cenation092@gmail.com',
         to_emails='cenation092@gmail.com',
