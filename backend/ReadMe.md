@@ -1,5 +1,8 @@
 This repo contains all APIs used in this project.
 
+## ER Diagram
+![image](https://user-images.githubusercontent.com/21224753/62832544-0c385480-bc4e-11e9-9270-0c8d2242d00f.png)
+
 ## How to set up the project environemnt
 
 * [Clone](https://github.com/akashvermaofskt/group-expense-manager.git) this repo in your local machine.
