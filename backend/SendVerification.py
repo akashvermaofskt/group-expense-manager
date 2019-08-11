@@ -10,7 +10,7 @@ if __name__ == "__main__":
         subject='Sending with Twilio SendGrid is Fun',
         html_content='<strong>and easy to do anywhere, even with Python</strong>')
     try:
-        sg = SendGridAPIClient(os.environ.get('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'))
+        sg = SendGridAPIClient(os.environ.get('API KEY'))
         response = sg.send(message)
         print(response.status_code)
         print(response.body)
