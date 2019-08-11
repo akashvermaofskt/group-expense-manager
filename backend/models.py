@@ -127,6 +127,6 @@ class FriendMapping(Base):
 
 # sqlite://<nohostname>/<path>
 # where <path> is relative:
-engine = create_engine('sqlite:///version1.db')
+engine = create_engine('sqlite:///version1.db',connect_args={'check_same_thread': False})
 
 Base.metadata.create_all(engine)
