@@ -1,8 +1,6 @@
 # Group Expense Manager
 
-A project from IB Academy Hackathon month.
-
-Group expense manger is the easiest way to share expenses with friends and family and stop stressing about “who owes who.” 
+Group expense manager is the easiest way to share expenses with friends and family and stop stressing about “who owes who.” 
 Our mission is to reduce the stress and awkwardness that money places on our most important relationships.
 
 #### It is great for:
