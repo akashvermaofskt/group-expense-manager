@@ -1,7 +1,7 @@
 This repo contains all APIs used in this project.
 
 ## ER Diagram
-![image](https://user-images.githubusercontent.com/21224753/62832544-0c385480-bc4e-11e9-9270-0c8d2242d00f.png)
+![image](https://user-images.githubusercontent.com/21224753/62846233-f5483f80-bceb-11e9-8870-1b27108c4c23.png)
 
 ## How to set up the project environemnt
 
