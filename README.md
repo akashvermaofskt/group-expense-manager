@@ -19,7 +19,7 @@ Our mission is to reduce the stress and awkwardness that money places on our mos
 - Create groups for any splitting situation
 - Add expenses.
 - Expenses are backed up online so any everyone can log in, view their balances, and add expenses
-- Keep track of who should pay next, or settle up by recording cash payments or using our integrations
+- Keep track of who should pay next, or settle up by recording cash payments.
 
 #### Creaters
 - [Mohit Rai](https://github.com/cenation092)
