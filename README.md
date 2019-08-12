@@ -1,4 +1,4 @@
-# group-expense-manager
+# Group Expense Manager
 A project from IB Academy Hackathon month.
 
 Group expense manger is the easiest way to share expenses with friends and family and stop stressing about “who owes who.” 
@@ -19,3 +19,5 @@ It is simple to use:
 - Add expenses.
 - Expenses are backed up online so any everyone can log in, view their balances, and add expenses
 - Keep track of who should pay next, or settle up by recording cash payments or using our integrations
+
+Copyright (c) 2019 Mohit Rai ans Akash Verma
