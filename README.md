@@ -20,5 +20,5 @@ Our mission is to reduce the stress and awkwardness that money places on our mos
 - Keep track of who should pay next, or settle up by recording cash payments.
 
 #### Creaters
-- [Mohit Rai](https://github.com/cenation092)
-- [Akash Verma](https://github.com/akashvermaofskt)
+- Backend: [Mohit Rai](https://github.com/cenation092)
+- Frontend: [Akash Verma](https://github.com/akashvermaofskt)
