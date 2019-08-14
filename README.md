@@ -19,6 +19,10 @@ Our mission is to reduce the stress and awkwardness that money places on our mos
 - Expenses are backed up online so any everyone can log in, view their balances, and add expenses
 - Keep track of who should pay next, or settle up by recording cash payments.
 
-#### Creaters
+#### Developers
 - Backend: [Mohit Rai](https://github.com/cenation092)
 - Frontend: [Akash Verma](https://github.com/akashvermaofskt)
+
+#### Documentations
+- [Backend](https://github.com/akashvermaofskt/group-expense-manager/blob/master/backend/ReadMe.md)
+- [Frontend](https://github.com/akashvermaofskt/group-expense-manager/blob/master/frontend/README.md)
