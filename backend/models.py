@@ -10,6 +10,24 @@ import datetime
 Base = declarative_base()
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
 
+
+class ProblemInfo(Base):
+    __tablename__ = "ProblemsData"
+     #attributes of problemdata table
+    Problem_Id = Column(Integer, primary_key = True )
+    Problem_name = Column( String(500), nullable = False )
+    Problem_statment = Column( String(5000000), nullable = False )
+    Small_Test_Case_1_Input = Column( String(10000), nullable = False )
+    Large_Test_Case_1_Input = Column( String(10000), nullable = False )
+    Large_Test_Case_2_Input = Column( String(1000000), nullable = False )
+    Large_Test_Case_3_Input = Column( String(1000000), nullable = False )
+    Small_Test_Case_1_Output = Column( String(10000), nullable = False )
+    Large_Test_Case_1_Output = Column( String(10000), nullable = False )
+    Large_Test_Case_2_Output = Column( String(1000000), nullable = False )
+    Large_Test_Case_3_Output = Column( String(1000000), nullable = False )
+    Created_At = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    Updated_At = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+
 class UserInfo(Base):
     __tablename__ = "UserData"
     #attributes for userdata table
