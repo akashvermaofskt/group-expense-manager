@@ -11,21 +11,7 @@ Base = declarative_base()
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
 
 
-class ProblemsInfo(Base):
-    __tablename__ = "ProblemsInfo"
-    #attributes for ProblemsInfo table
-    id = Column(Integer, primary_key = True )
-    Problem_Name = Column( String(1000), nullable = False, primary_key = True )
-    Problem_Type = Column( String(1000), nullable = False, primary_key = True )
-    Problem_Statment = Column( String(10000000), nullable = False )
-    Small_Test_Case_1_Input = Column( String(10000), nullable = False )
-    Large_Test_Case_2_Input = Column( String(100000), nullable = False )
-    Large_Test_Case_3_Input = Column( String(100000), nullable = False )
-    Large_Test_Case_4_Input = Column( String(100000), nullable = False )
-    Large_Test_Case_5_Input = Column( String(100000), nullable = False )
-    Large_Test_Case_6_Input = Column( String(100000), nullable = False )
-    Created_At = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
-    Updated_At = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)  
+ 
 
 class UserInfo(Base):
     __tablename__ = "UserData"
